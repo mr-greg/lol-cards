@@ -49,7 +49,7 @@ a:not([class]) {
 /* Make images easier to work with */
 img,
 picture {
-  max-width: 100%;
+  /* max-width: 100%; */
   display: block;
 }
 
