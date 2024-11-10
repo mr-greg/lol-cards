@@ -29,7 +29,7 @@ import imgPiltover from '../../assets/img/factions/piltover.svg';
 import imgShadow_isles from '../../assets/img/factions/shadow_isles.svg';
 import imgShurima from '../../assets/img/factions/shurima.svg';
 import imgTargon from '../../assets/img/factions/shurima.svg';
-import imgVoid from '../../assets/img/factions/Void.svg';
+import imgVoid from '../../assets/img/factions/void.svg';
 import imgZaun from '../../assets/img/factions/zaun.svg';
 
 const Card = ({ data }) => {
