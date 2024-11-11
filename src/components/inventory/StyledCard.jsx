@@ -108,4 +108,28 @@ export const StyledCard = styled.div`
             width: 16px;
         }
     }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .overlay-content {
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .overlay img {
+        width: 100%;
+        height: auto;
+    }
+
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyledCard } from './StyledCard';
 import imgCards from '../../assets/img/cards-icon.png';
 import imgCostRP from '../../assets/img/riot-points.png';
@@ -45,6 +45,7 @@ const Card = ({ data }) => {
         blueEssence,
         release_date,
         loadScreenSplashPath,
+        fullSplashPath,
         quantity
     } = data;
 
@@ -134,7 +135,13 @@ const Card = ({ data }) => {
     let rolesArray = JSON.parse(roles);
     const rolesFormatted = rolesArray.map(role => role.replace(/"/g, '')).join(", ");
     
-
+    const [overlayVisible, setOverlayVisible] = useState(false);
+    const handleSplashClick = () => {
+        setOverlayVisible(true);
+    }
+    const handleOverlayClose = () => {
+        setOverlayVisible(false);
+    }
 
     return (
         <StyledCard className='card-wrapper' splashurl={loadScreenSplashPath}>
@@ -147,7 +154,7 @@ const Card = ({ data }) => {
             </div>
             <h4>{champion_name} {skin_name}</h4>
             <p className='title'>{title.charAt(0).toUpperCase() + title.slice(1)}</p>
-            <div className="splash-wrapper">
+            <div className="splash-wrapper" onClick={handleSplashClick}>
                 <div className="date">
                     <p>{release_date}</p>
                 </div>
@@ -166,12 +173,21 @@ const Card = ({ data }) => {
                         {cost === 69 
                         ? "Unavailable" 
                         : skin_name.includes('Original') 
-                        ? cost + ' BE' 
+                        ? blueEssence + ' BE' 
                         : cost + ' RP'}
                     </p>
                     <img src={getCostIcon(skin_name)} alt="Cost RP icon" />
                 </div>
             </div>
+
+            {overlayVisible && (
+                <div className="overlay" onClick={handleOverlayClose}>
+                    <div className="overlay-content">
+                        <img src={fullSplashPath} alt="Splash Image" />
+                    </div>
+                </div>
+            )}
+
         </StyledCard>
     );
 }
