@@ -39,7 +39,7 @@ export const StyledHome = styled.div`
 
     .btn-container {
         text-align: center;
-        margin-top: 15px;
+        margin: 15px 0;
         .loadmore {
             padding: 8px 20px;
             background: none;
