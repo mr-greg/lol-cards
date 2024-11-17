@@ -37,4 +37,17 @@ export const StyledHome = styled.div`
         }
     }
 
+    .btn-container {
+        text-align: center;
+        margin-top: 15px;
+        .loadmore {
+            padding: 8px 20px;
+            background: none;
+            border: 1px solid #C89B3C;
+            color: white;
+            cursor: pointer;
+        }
+    }
+    
+
 `

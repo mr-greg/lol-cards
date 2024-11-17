@@ -98,13 +98,13 @@ function Home() {
           </select>
         </div>
         
-
-
       </div>
 
       <Inventory skins={skins.slice(0, visibleCount)} />
       {visibleCount < skins.length && (
-        <button onClick={loadMoreCards}>Load more</button>
+        <div className="btn-container">
+          <button className="loadmore" onClick={loadMoreCards}>Load more</button>
+        </div>
       )}
     </StyledHome>
   );
