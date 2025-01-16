@@ -34,6 +34,8 @@ function Home() {
 
         setUsername(nameResponse[0]?.name)
         setSkins(response);
+        
+        
     } catch (error) {
         console.error("Erreur lors de la récupération des skins :", error);
     }
@@ -97,7 +99,6 @@ function Home() {
             <option value="desc">Descending</option>
           </select>
         </div>
-        
       </div>
 
       <Inventory skins={skins.slice(0, visibleCount)} />

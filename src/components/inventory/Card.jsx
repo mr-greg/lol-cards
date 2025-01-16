@@ -11,12 +11,12 @@ import imgSupport from '../../assets/img/support.png';
 import imgSs from '../../assets/img/ss.png';
 import imgLol from '../../assets/img/lol.png';
 
-import imgEpic from '../../assets/img/epic.png'
-import imgLegendary from '../../assets/img/legendary.png'
-import imgMythic from '../../assets/img/mythic.png'
-import imgTranscendant from '../../assets/img/transcendant.png'
-import imgUltime from '../../assets/img/ultime.png'
-import imgLegacy from '../../assets/img/legacy.png'
+import imgEpic from '../../assets/img/epic.png';
+import imgLegendary from '../../assets/img/legendary.png';
+import imgMythic from '../../assets/img/mythic.png';
+import imgTranscendant from '../../assets/img/transcendant.png';
+import imgUltime from '../../assets/img/ultime.png';
+import imgLegacy from '../../assets/img/legacy.png';
 
 import imgBandle_city from '../../assets/img/factions/bandle_city.svg';
 import imgBilgewater from '../../assets/img/factions/bilgewater.svg';
@@ -50,8 +50,9 @@ const Card = ({ data }) => {
     } = data;
 
     const getPosImage = (positions) => {
+        if (!positions) return imgSs; // Icône par défaut si positions est null ou vide
         const positionArray = positions.split(',');
-        
+
         if (positionArray[0].includes('TOP')) {
             return imgTop;
         } else if (positionArray[0].includes('JUNGLE')) {
@@ -63,7 +64,7 @@ const Card = ({ data }) => {
         } else if (positionArray[0].includes('SUPPORT')) {
             return imgSupport;
         } else {
-            return imgSs;
+            return imgSs; // Icône par défaut
         }
     };
 
@@ -84,7 +85,7 @@ const Card = ({ data }) => {
             case 'NoRarity':
                 return imgLol;
             default:
-                return imgLol;  // Icône par défaut
+                return imgLol; // Icône par défaut
         }
     };
 
@@ -94,7 +95,7 @@ const Card = ({ data }) => {
         } else {
             return imgCostRP;
         }
-    }
+    };
 
     const getRegionIcon = (faction) => {
         switch (faction) {
@@ -130,18 +131,28 @@ const Card = ({ data }) => {
             default:
                 return imgLol;
         }
+    };
+
+    let rolesArray = [];
+    try {
+        if (roles) {
+            rolesArray = JSON.parse(roles);
+        }
+    } catch (error) {
+        console.error('Erreur lors de l’analyse JSON de roles :', error);
     }
 
-    let rolesArray = JSON.parse(roles);
-    const rolesFormatted = rolesArray.map(role => role.replace(/"/g, '')).join(", ");
-    
+    const rolesFormatted = Array.isArray(rolesArray)
+        ? rolesArray.map(role => role.replace(/"/g, '')).join(", ")
+        : "Aucun rôle disponible";
+
     const [overlayVisible, setOverlayVisible] = useState(false);
     const handleSplashClick = () => {
         setOverlayVisible(true);
-    }
+    };
     const handleOverlayClose = () => {
         setOverlayVisible(false);
-    }
+    };
 
     return (
         <StyledCard className='card-wrapper' splashurl={loadScreenSplashPath}>
@@ -153,7 +164,10 @@ const Card = ({ data }) => {
                 </div>
             </div>
             <h4>{champion_name} {skin_name}</h4>
-            <p className='title'>{title.charAt(0).toUpperCase() + title.slice(1)}</p>
+            <p className='title'>
+                {title ? title.charAt(0).toUpperCase() + title.slice(1) : "Titre non disponible"}
+            </p>
+
             <div className="splash-wrapper" onClick={handleSplashClick}>
                 <div className="date">
                     <p>{release_date}</p>
@@ -190,6 +204,6 @@ const Card = ({ data }) => {
 
         </StyledCard>
     );
-}
+};
 
 export default Card;
