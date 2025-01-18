@@ -12,7 +12,6 @@ const InventoryWrapper = styled.div`
 
 function Inventory({ skins }) {
   // Vérification si skins est bien défini et est un tableau
-  console.log("skins = ", skins);
   
   if (!Array.isArray(skins)) {
     return <p>Chargement des skins...</p>; // Message de chargement ou placeholder

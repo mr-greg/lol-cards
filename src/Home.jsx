@@ -32,9 +32,6 @@ function Home() {
         args: [userId]
       });
       
-
-        console.log("response = ", response);
-
         const nameResponse = await turso.execute({
           sql: "SELECT name FROM Users WHERE userId = ?",
           args: [userId]
