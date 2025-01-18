@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledHome = styled.div`
+    padding: 0px 0px 20px;
 
     h1 {
         margin: 25px 0 10px;

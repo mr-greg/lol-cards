@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { StyledCard } from './StyledCard';
 import imgCards from '../../assets/img/cards-icon.png';
@@ -133,19 +135,6 @@ const Card = ({ data }) => {
         }
     };
 
-    let rolesArray = [];
-    try {
-        if (roles) {
-            rolesArray = JSON.parse(roles);
-        }
-    } catch (error) {
-        console.error('Erreur lors de l’analyse JSON de roles :', error);
-    }
-
-    const rolesFormatted = Array.isArray(rolesArray)
-        ? rolesArray.map(role => role.replace(/"/g, '')).join(", ")
-        : "Aucun rôle disponible";
-
     const [overlayVisible, setOverlayVisible] = useState(false);
     const handleSplashClick = () => {
         setOverlayVisible(true);
@@ -153,14 +142,14 @@ const Card = ({ data }) => {
     const handleOverlayClose = () => {
         setOverlayVisible(false);
     };
-
+    
     return (
         <StyledCard className='card-wrapper' splashurl={loadScreenSplashPath}>
             <div className="top-info">
                 <img src={getPosImage(positions)} alt="Top icon" />
                 <div className="add-infos">
                     <img src={getRegionIcon(faction)} title={faction} />
-                    <p className='toggle-hidden'>{rolesFormatted}</p>
+                    <p className='toggle-hidden'>{roles}</p>
                 </div>
             </div>
             <h4>{champion_name} {skin_name}</h4>

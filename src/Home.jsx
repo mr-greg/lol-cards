@@ -1,39 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Inventory from "./pages/Inventory";
 import { StyledHome } from "./StyledHome";
-import { Database } from "@sqlitecloud/drivers";
 import { useParams } from "react-router-dom";
+import { createClient } from "@libsql/client";
 
-function Home() {  
+function Home() {
+
+  const turso = createClient({
+    url: import.meta.env.VITE_TURSO_DB_URL,
+    authToken: import.meta.env.VITE_TURSO_AUTH_TOKEN
+  })
+
   const { userId } = useParams();
   const [skins, setSkins] = useState([]);
   const [visibleCount, setVisibleCount] = useState(25);
-  const db = new Database(import.meta.env.VITE_DB_TOKEN);
   const [username, setUsername] = useState('name');
   const [sortCriteria, setSortCriteria] = useState("skin_name"); // Critère de tri par défaut
   const [sortOrder, setSortOrder] = useState("asc"); // Ordre de tri par défaut (ascendant)
 
   const fetchUserSkins = async () => {
     try {
-        const response = await db.sql`
-            SELECT s.skin_id, s.skin_name, s.champion_name, s.title, s.cost, s.rarity, 
-                   s.positions, s.roles, s.faction, s.blueEssence, s.release_date, 
-                   s.loadScreenSplashPath, s.fullSplashPath, us.quantity
-            FROM SKINS s
-            JOIN UserSkins us ON s.skin_id = us.skin_id
-            WHERE us.userId = ${userId}
-        `;
+      const response = await turso.execute({
+        sql: `
+          SELECT SKINS.skin_id, SKINS.skin_name, SKINS.champion_name, SKINS.title, SKINS.cost, SKINS.rarity, SKINS.positions, SKINS.roles, SKINS.faction, SKINS.blueEssence, SKINS.release_date, SKINS.loadScreenSplashPath, SKINS.fullSplashPath, UserSkins.quantity 
+          FROM SKINS 
+          JOIN UserSkins ON SKINS.skin_id = UserSkins.skin_id 
+          WHERE UserSkins.user_id = ?
+        `,
+        args: [userId]
+      });
+      
+
         console.log("response = ", response);
 
-        const nameResponse = await db.sql`
-          SELECT name
-          FROM Users u
-          WHERE u.userId = ${userId}
-        `;
-        console.log(nameResponse);
+        const nameResponse = await turso.execute({
+          sql: "SELECT name FROM Users WHERE userId = ?",
+          args: [userId]
 
-        setUsername(nameResponse[0]?.name)
-        setSkins(response);
+        })
+
+        setUsername(nameResponse.rows[0].name)     
+        setSkins(response.rows);
         
         
     } catch (error) {
